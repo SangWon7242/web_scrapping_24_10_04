@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import openpyxl
+from openpyxl import load_workbook
+from openpyxl.styles import Alignment
 
 # 1. 웹 페이지 요청
 url = 'https://news.naver.com/section/104'  # 스크래핑할 URL
@@ -71,4 +72,42 @@ df = pd.DataFrame(data)
 save_path = "C:\work\python_projects\뉴스_기사.xlsx"
 df.to_excel(save_path, index=False)
 
+# 엑셀 파일 열기
+excel_file = 'C:\work\python_projects\뉴스_기사.xlsx'  # 엑셀 파일 경로
+wb = load_workbook(excel_file)
+ws = wb.active  # 현재 활성화된 시트 선택
+
+# 1. **열 크기 조정**
+# 'A'열(뉴스 제목 열)의 너비를 20으로 설정
+ws.column_dimensions['A'].width = 15
+
+# 'B'열(뉴스 링크 열)의 너비를 70으로 설정
+ws.column_dimensions['B'].width = 100
+
+# 2. **행 크기 조정**
+# 1번 행(헤더 행)의 높이를 20로 설정
+ws.row_dimensions[1].height = 25
+
+# 가운데 정렬 스타일 정의
+center_style = Alignment(horizontal='center', vertical='center')
+
+# A열의 모든 셀을 가운데 정렬
+for row in ws.iter_rows(min_col=1, max_col=1, min_row=1, max_row=ws.max_row):
+    for cell in row:
+        cell.alignment = center_style  # 셀의 정렬을 가운데로 설정
+
+# B열의 1번 셀(B1)만 가운데 정렬
+ws['B1'].alignment = center_style
+
+wb.save(excel_file) # 새로운 파일로 저장
+
+'''
+# 3. **모든 열과 행의 크기를 조정**
+# 특정 범위의 열과 행을 조정할 수도 있습니다.
+# 예를 들어 A, B 열의 너비를 동시에 조정하는 경우
+for col in ['A', 'B']:
+    ws.column_dimensions[col].width = 20
+'''
+
 print("== 데이터 저장이 완료되었습니다. ==")
+
