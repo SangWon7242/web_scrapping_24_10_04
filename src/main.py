@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
+import openpyxl
 
 # 1. 웹 페이지 요청
 url = 'https://news.naver.com/section/104'  # 스크래핑할 URL
@@ -33,8 +35,7 @@ for i, title in enumerate(news_title_list):
   no = i + 1
   print(f"{no} : {title}")
 '''  
-
-
+'''
 # 특정 키워드로 검색 후, 검색 결과 리스트 담고 출력
 find_keyword_news_list = []  
 
@@ -48,5 +49,39 @@ for i, title in enumerate(news_title_list):
   
 print(find_keyword_news_list) # 특정 키워드로 걸러진 데이터가 리스트에 저장
 
+# 걸러진 데이터를 반복문을 이용해 출력
 for i, title in enumerate(find_keyword_news_list):
   print(f"{i + 1} : {title} ")
+'''  
+
+print("== 검색 내용 출력 ==")
+for i, title in enumerate(news_title_list):
+  no = i + 1
+  print(f"{no} : {title}")
+  
+print("== 데이터 저장 ==")  
+
+data = {'헤드 라인 뉴스 제목': news_title_list}
+
+# 특정 키워드로 데이터 저장
+find_keyword_news_list = []  
+keyword = '미국'
+for i, title in enumerate(news_title_list):
+  if title.find(keyword) != -1:
+    find_keyword_news_list.append(title)
+  
+print(find_keyword_news_list) # 특정 키워드로 걸러진 데이터가 리스트에 저장
+
+data2 = {f'"{keyword}"으(로) 검색한 뉴스 제목': find_keyword_news_list}
+
+# 추출한 데이터를 엑셀에 저장
+df = pd.DataFrame(data)
+df2 = pd.DataFrame(data2) 
+
+save_path = "C:\work\python_projects\뉴스_기사.xlsx"
+save_path2 = "C:\work\python_projects\뉴스_기사2.xlsx"
+
+df.to_excel(save_path, index=False)
+df2.to_excel(save_path2, index=False)
+
+print("== 데이터 저장이 완료되었습니다. ==")
