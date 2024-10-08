@@ -16,9 +16,10 @@ html = """
   <ul>
     <li>
       <a class="naver" href="https://www.naver.com">네이버로 이동</a>
+      <div class="box-1" id="div-box">div 박스</div>
     </li>
     <li>
-      <a class="google" href="https://www.google.com">구글로 이동</a>
+      <a class="google" href="https://www.google.com">구글로 이동</a>      
     </li>
     <li>
       <a class="daum" href="https://www.daum.net">다음으로 이동</a>
@@ -32,7 +33,8 @@ soup = BeautifulSoup(html, 'html.parser')
 
 print(soup)
 
-# find, fint_all 연습
+'''
+# find, find_all 연습
 print(soup.find('li')) # 엘리먼트가 li인 녀석 중에서 첫 번째 li를 찾아서 반환
 print(soup.find_all('li'))
 
@@ -46,3 +48,20 @@ print(soup.find_all('a'))
 for i, a in enumerate(soup.find_all('a')):
   a_txt = a.get_text()
   print(f"{i} : {a_txt}")
+'''  
+
+# select(), select_one() 연습
+# print(soup.select('li > a')) # li의 자식인 a엘리먼트 검색
+print(soup.select('a'))
+
+a_elements = soup.select('a')
+for i, el in enumerate(a_elements):
+  el_txt = el.get_text()
+  print(f"{i} : {el_txt}")
+  
+print(soup.select_one('li')) # 엘리먼트가 li인 녀석 중에서 첫 번째 li를 찾아서 반환
+print(soup.select_one('li > a')) # li의 자식인 a엘리먼트 중에 첫 번째 a를 찾아서 반환
+
+print(soup.select_one('.box-1')) # 클래스 이름이 box-1인 엘리먼트 중에 첫 번째를 찾아서 반환
+print(soup.select_one('#div-box')) # id 이름이 div-box인 엘리먼트를 가져온다.
+print(soup.select_one('#div-box').get_text())
