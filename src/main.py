@@ -65,3 +65,11 @@ print(soup.select_one('li > a')) # li의 자식인 a엘리먼트 중에 첫 번�
 print(soup.select_one('.box-1')) # 클래스 이름이 box-1인 엘리먼트 중에 첫 번째를 찾아서 반환
 print(soup.select_one('#div-box')) # id 이름이 div-box인 엘리먼트를 가져온다.
 print(soup.select_one('#div-box').get_text())
+
+# print(soup.select_one('a + div'))
+print(soup.select_one('a'))
+find_a = soup.select_one('a')
+a_sibling = find_a.find_next_sibling()
+print(a_sibling)
+
+print(find_a.get('href'))
