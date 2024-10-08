@@ -59,29 +59,16 @@ for i, title in enumerate(news_title_list):
   no = i + 1
   print(f"{no} : {title}")
   
-print("== 데이터 저장 ==")  
+print("== 데이터 저장 시작 ==")  
 
-data = {'헤드 라인 뉴스 제목': news_title_list}
-
-# 특정 키워드로 데이터 저장
-find_keyword_news_list = []  
-keyword = '미국'
-for i, title in enumerate(news_title_list):
-  if title.find(keyword) != -1:
-    find_keyword_news_list.append(title)
-  
-print(find_keyword_news_list) # 특정 키워드로 걸러진 데이터가 리스트에 저장
-
-data2 = {f'"{keyword}"으(로) 검색한 뉴스 제목': find_keyword_news_list}
+data = {
+  '번호': range(1, len(news_title_list) + 1),
+  '헤드 라인 뉴스 제목': news_title_list
+  }
 
 # 추출한 데이터를 엑셀에 저장
 df = pd.DataFrame(data)
-df2 = pd.DataFrame(data2) 
-
 save_path = "C:\work\python_projects\뉴스_기사.xlsx"
-save_path2 = "C:\work\python_projects\뉴스_기사2.xlsx"
-
 df.to_excel(save_path, index=False)
-df2.to_excel(save_path2, index=False)
 
 print("== 데이터 저장이 완료되었습니다. ==")
