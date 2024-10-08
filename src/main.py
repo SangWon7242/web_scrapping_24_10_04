@@ -12,6 +12,23 @@ if response.status_code == 200:
 
 
 # BeautifulSoup 객체 생성
-soup = BeautifulSoup(response.text, 'html.parser')  
+# response.text는 HTML 소스 코드 텍스트임
+html_data = BeautifulSoup(response.text, 'html.parser')  
 
-print(soup)
+# print(html_data.select('.sa_text_strong'))
+
+headline_news_list = html_data.select('.sa_text_strong')
+news_title_list = []
+
+# 1차 가공
+for news_title in headline_news_list:
+  # print(news_title.get_text())
+  news_title_txt = news_title.get_text()
+  news_title_list.append(news_title_txt)
+  
+# print(news_title_list)  
+
+# 2차 가공
+for i, title in enumerate(news_title_list):
+  no = i + 1
+  print(f"{no} : {title}")
